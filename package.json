@@ -1,0 +1,33 @@
+{
+  "name": "odin-battleships",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack serve --open --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
+    "test": "jest",
+    "deploy": "git subtree push --prefix dist origin gh-pages"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wishyrater/odin-battleships.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wishyrater/odin-battleships/issues"
+  },
+  "type": "module",
+  "homepage": "https://github.com/wishyrater/odin-battleships#readme",
+  "devDependencies": {
+    "@babel/preset-env": "^7.29.2",
+    "html-webpack-plugin": "^5.6.7",
+    "jest": "^30.3.0",
+    "webpack": "^5.106.2",
+    "webpack-cli": "^7.0.2",
+    "webpack-dev-server": "^5.2.3",
+    "webpack-merge": "^6.0.1"
+  }
+}
