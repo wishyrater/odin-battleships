@@ -10,51 +10,59 @@ export default class Gameboard {
                 this.grid[y][x] = null;
             }
         }
-    }
+        this.attacks = [];
+        this.placedShips = [];
+    };
 
     getCell = (x, y) => {
-        return this.grid[x][y];
+        return this.grid[y][x];
     };
 
     // should be able to place ships
-    placeShip = (ship, start, finish) => {
+    placeShip = (ship, [x1, y1], [x2, y2]) => {
         // figure out which coordinates we need to go through
-        // check which of the coordinates there is a difference
-        // it's either on the x-axis or the y-axis
         let numCoordinates;
         const coordinates = [];
-        if (start[0] != finish[0]) {
-            numCoordinates = Math.abs(finish[0] - start[0]) + 1;
+        // check which of the coordinates there is a difference
+        // it's either on the x-axis or the y-axis
+        if (x1 != x2) {
+            numCoordinates = Math.abs(x2 - x1) + 1;
             for (let i = 0; i < numCoordinates; i++) {
-                coordinates.push([start[0] + i, start[1]]);
-            };
-        } else if (start[1] != finish[1]) {
-            numCoordinates = Math.abs(finish[1] - start[1]) + 1;
+                coordinates.push([x1 + i, y1]);
+            }
+        } else if (y1 != y2) {
+            numCoordinates = Math.abs(y2 - y1) + 1;
             for (let i = 0; i < numCoordinates; i++) {
-                coordinates.push([start[0], start[1] + i]);
-            };
+                coordinates.push([x1, y1 + i]);
+            }
         // otherwise it's just one coordinate
         } else {
             numCoordinates = 1;
-            coordinates.push([start[0], start[1]]);
+            coordinates.push([x1, y1]);
         }
 
         // place the ship in the coordinates
-        for (const coordinate of coordinates) {
-            console.log("placing at: ", coordinate);
-            this.grid[coordinate[0]][coordinate[1]] = ship;
+        for (const [x, y] of coordinates) {
+            if (x < 0 || y < 0 || x > 9 || y > 9) throw new Error("Out of bounds");
+            if (this.grid[y][x] !== null) throw new Error("Can't place ship in occupied cell");
         }
 
-        // check if there are any ships in the coordinates
-        // [b, 5] to [b, 8] 
-        //this.grid[]
+        for (const [x, y] of coordinates) {
+            this.grid[y][x] = ship;
+        }
 
-
-    }
+        this.placedShips.push(ship);
+    };
 
     // should be able to receive an attack
-
-    // should keep track of missed attacks to display them properly
+    receiveAttack = (x, y) => {
+        if (this.attacks.some(([ax, ay]) => ax === x && ay === y)) {
+            throw new Error("Cell already attacked");
+        }
+        this.attacks.push([x, y]);
+        if (this.grid[y][x] !== null) this.grid[y][x].hit();
+    };
 
     // should be able to report whether all or not all ships have been sunk
-}
+    allSunk = () => this.placedShips.every(ship => ship.isSunk());
+};
