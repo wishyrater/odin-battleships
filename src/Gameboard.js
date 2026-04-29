@@ -1,5 +1,3 @@
-import Ship from "./Ship";
-
 export default class Gameboard {
     constructor() {
         // on creation, make a 10x10 grid with empty cells
@@ -21,7 +19,7 @@ export default class Gameboard {
     // should be able to place ships
     placeShip = (ship, [x1, y1], [x2, y2]) => {
         // figure out which coordinates we need to go through
-        let numCoordinates;
+        const numCoordinates;
         const coordinates = [];
         // check which of the coordinates there is a difference
         // it's either on the x-axis or the y-axis

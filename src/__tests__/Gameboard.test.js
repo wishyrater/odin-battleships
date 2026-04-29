@@ -33,7 +33,7 @@ test("attacks that hit ships register", () => {
     expect(ship.hits).toBe(1);
 });
 
-test("attacks that miss are registered", () => {
+test("attacks are registered", () => {
     const gameboard = new Gameboard();
     gameboard.receiveAttack(0, 0);
     expect(gameboard.attacks).toContainEqual([0, 0]);
