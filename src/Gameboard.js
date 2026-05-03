@@ -19,7 +19,7 @@ export default class Gameboard {
     // should be able to place ships
     placeShip = (ship, [x1, y1], [x2, y2]) => {
         // figure out which coordinates we need to go through
-        const numCoordinates;
+        let numCoordinates = 0;
         const coordinates = [];
         // check which of the coordinates there is a difference
         // it's either on the x-axis or the y-axis
