@@ -10,9 +10,9 @@ export const renderBoard = (gameboard, parentElement) => {
             cell.classList.add("cell");
             cell.dataset.x = x;
             cell.dataset.y = y;
+            if (gameboard.getCell(x, y) !== null) cell.classList.add("ship");
             element.appendChild(cell);
         }
     }
-
     parentElement.appendChild(element);
 };

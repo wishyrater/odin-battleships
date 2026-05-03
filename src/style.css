@@ -1,5 +1,34 @@
+body {
+    margin: 0;
+    padding: 0;
+    
+    display: grid;
+    justify-items: center;
+}
+
+main {
+    display: flex;
+    gap: 10px;
+    height: min-content;
+    width: min-content;
+}
+
 .gameboard {
-    height: 50px;
-    width: 50px;
     border: 2px solid black;
+
+    display: grid;
+    justify-items: center;
+
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+}
+
+.cell {
+    height: 24px;
+    width: 24px;
+    border: 1px solid black;
+}
+
+.ship {
+    background-color: blue;
 }
