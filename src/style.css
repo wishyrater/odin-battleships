@@ -7,10 +7,17 @@ body {
 }
 
 main {
-    display: flex;
-    gap: 10px;
-    height: min-content;
-    width: min-content;
+    display: grid;
+    justify-items: center;
+
+    gap: 50px;
+}
+
+.board {
+    display: grid;
+    justify-items: center;
+
+    grid-template-columns: 1fr 1fr;
 }
 
 .gameboard {
@@ -31,4 +38,16 @@ main {
 
 .ship {
     background-color: blue;
+}
+
+.attacked {
+    background-color: black;
+}
+
+.ship.attacked {
+    background-color: red;
+}
+
+.newShipPreview {
+    background-color: aqua;
 }

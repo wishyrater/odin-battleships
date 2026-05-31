@@ -1,3 +1,4 @@
+import Ship from "./Ship.js";
 export default class Gameboard {
     constructor() {
         // on creation, make a 10x10 grid with empty cells
@@ -14,6 +15,46 @@ export default class Gameboard {
 
     getCell = (x, y) => {
         return this.grid[y][x];
+    };
+
+    _removeShip = (ship) => {
+        for (let y = 0; y < 10; y++) {
+            for (let x = 0; x < 10; x++) {
+                if (this.grid[y][x] === ship) {
+                    this.grid[y][x] = null;
+                }
+            }
+        }
+        this.placedShips = this.placedShips.filter(s => s !== ship);
+    };
+
+    populateRandomShips = () => {
+        const carrier = new Ship(5);
+        const battleship = new Ship(4);
+        const cruiser = new Ship(3);
+        const submarine = new Ship(3);
+        const destroyer = new Ship(2);
+
+        const ships = [carrier, battleship, cruiser, submarine, destroyer];
+
+        ships.forEach((ship) => {
+            let placed = false;
+            while (!placed) {
+                ship.isVertical = Math.random() > 0.5;
+                const x = Math.floor(Math.random() * 10);
+                const y = Math.floor(Math.random() * 10);
+                const end = ship.isVertical
+                    ? [x, y + ship.size - 1]
+                    : [x + ship.size - 1, y];
+
+                try {
+                    this.placeShip(ship, [x, y], end)
+                    placed = true;
+                } catch {
+                    // retry
+                }
+            }
+        });
     };
 
     // should be able to place ships
@@ -42,8 +83,10 @@ export default class Gameboard {
         // place the ship in the coordinates
         for (const [x, y] of coordinates) {
             if (x < 0 || y < 0 || x > 9 || y > 9) throw new Error("Out of bounds");
-            if (this.grid[y][x] !== null) throw new Error("Can't place ship in occupied cell");
+            if (this.grid[y][x] !== null && this.grid[y][x] !== ship) throw new Error("Can't place ship in occupied cell");
         }
+
+        this._removeShip(ship);
 
         for (const [x, y] of coordinates) {
             this.grid[y][x] = ship;

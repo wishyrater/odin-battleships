@@ -1,7 +1,8 @@
 export default class Ship {
-    constructor(size) {
+    constructor(size, isVertical = false) {
         this.size = size;
         this.hits = 0;
+        this.isVertical = isVertical;
     }
 
     hit = () => {
