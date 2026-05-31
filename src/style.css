@@ -1,7 +1,78 @@
+/* || Colour scheme */
+:root {
+    --bg: #0f1923;
+    --surface: #162330;
+    --cell: #1e3045;
+    --border: #2a3a4a;
+    --ship: #4a90b8;
+    --preview: #6ab0d4;
+    --hit: #c0392b;
+    --miss: #3d566e;
+    --text-primary: #e0eaf0;
+    --text-secondary: #7a9bb5;
+    --win: #2ecc71;
+    --accent: #e67e22;
+}
+
+/* || Default styles reset */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
 body {
     margin: 0;
     padding: 0;
-    
+
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+
+input, button, textarea, select {
+    font: inherit;
+}
+
+p {
+    text-wrap: pretty;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+}
+
+/* || Custom variables */
+@font-face {
+    font-family: "Rajdhani";
+    src: url('/src/fonts/Rajdhani-Regular.ttf') format("truetype");
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Rajdhani";
+    src: url('/src/fonts/Rajdhani-Bold.ttf') format("truetype");
+    font-style: normal;
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: "Rajdhani";
+    src: url('/src/fonts/Rajdhani-Light.ttf') format("truetype");
+    font-style: normal;
+    font-weight: 300;
+}
+
+/* || General styling */
+
+body {
     display: grid;
     justify-items: center;
 }
