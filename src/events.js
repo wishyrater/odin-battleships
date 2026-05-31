@@ -12,10 +12,10 @@ export const initEvents = () => {
     computer.gameboard.populateRandomShips();
 
     // render gameboards
-    const playerContainer = document.querySelector(".player-container");
-    const computerContainer = document.querySelector(".computer-container");
-    renderBoard(player.gameboard, playerContainer);
-    renderBoard(computer.gameboard, computerContainer);
+    const playerGameboardContainer = document.querySelector(".player-gameboard-container");
+    const computerGameboardContainer = document.querySelector(".computer-gameboard-container");
+    renderBoard(player.gameboard, playerGameboardContainer);
+    renderBoard(computer.gameboard, computerGameboardContainer);
 
     // render startbutton
     const narratorContainer = document.querySelector(".narrator-container");
@@ -39,7 +39,7 @@ export const initEvents = () => {
 
         // TODO: implement right click to change vertical orientation
         document.addEventListener("keydown", handleRotate);
-        playerContainer.addEventListener("mouseover", handlePreviewHover);
+        playerGameboardContainer.addEventListener("mouseover", handlePreviewHover);
         document.addEventListener("mouseup", handlePlacementMouseUp)
     };
 
@@ -55,7 +55,7 @@ export const initEvents = () => {
     const handlePlacementMouseUp = (e) => {
         clearPreviewCells();
         document.removeEventListener("keydown", handleRotate);
-        playerContainer.removeEventListener("mouseover", handlePreviewHover);
+        playerGameboardContainer.removeEventListener("mouseover", handlePreviewHover);
         document.removeEventListener("mouseup", handlePlacementMouseUp);
         
         const cell = e.target.closest(".cell");
@@ -73,7 +73,7 @@ export const initEvents = () => {
         try {
             player.gameboard.placeShip(selectedShip, [x, y], end);
             selectedShip.isVertical = verticalOrientation;
-            renderBoard(player.gameboard, playerContainer);
+            renderBoard(player.gameboard, playerGameboardContainer);
         } catch (error) {
             // TODO: update narrator
         }
@@ -100,7 +100,7 @@ export const initEvents = () => {
     };
 
     const initPlacementPhase = () => {
-        playerContainer.addEventListener("mousedown", handlePlacementMouseDown);
+        playerGameboardContainer.addEventListener("mousedown", handlePlacementMouseDown);
     };
 
     const clearPreviewCells = () => {
@@ -112,16 +112,16 @@ export const initEvents = () => {
         const startButton = document.querySelector(".start-button");
         startButton.addEventListener("click", () => {
             startButton.remove();
-            playerContainer.removeEventListener("contextmenu", handleRotate);
-            playerContainer.removeEventListener("mousedown", handlePlacementMouseDown);
-            playerContainer.removeEventListener("mouseover", handlePreviewHover);
+            playerGameboardContainer.removeEventListener("contextmenu", handleRotate);
+            playerGameboardContainer.removeEventListener("mousedown", handlePlacementMouseDown);
+            playerGameboardContainer.removeEventListener("mouseover", handlePreviewHover);
             document.removeEventListener("mouseup", handlePlacementMouseUp);
             initBattlePhase();
         });
     };
 
     const initBattlePhase = () => {
-        computerContainer.addEventListener("click", handlePlayerAttack);
+        computerGameboardContainer.addEventListener("click", handlePlayerAttack);
     };
 
     const handlePlayerAttack = (e) => {
@@ -135,7 +135,7 @@ export const initEvents = () => {
         if (computer.gameboard.attacks.some(([ax, ay]) => ax === x && ay === y)) return;
 
         computer.gameboard.receiveAttack(x, y);
-        renderBoard(computer.gameboard, computerContainer);
+        renderBoard(computer.gameboard, computerGameboardContainer);
 
         // check for win condition
         if (computer.gameboard.allSunk()) {
@@ -144,7 +144,7 @@ export const initEvents = () => {
             return;
         }
 
-        computerContainer.removeEventListener("click", handlePlayerAttack);
+        computerGameboardContainer.removeEventListener("click", handlePlayerAttack);
         handleComputerAttack();
     };
 
@@ -158,7 +158,7 @@ export const initEvents = () => {
         } while (player.gameboard.attacks.some(([ax, ay]) => ax === x && ay === y));
 
         player.gameboard.receiveAttack(x, y);
-        renderBoard(player.gameboard, playerContainer);
+        renderBoard(player.gameboard, playerGameboardContainer);
 
         if (player.gameboard.allSunk()) {
             alert("You lost");
@@ -166,7 +166,7 @@ export const initEvents = () => {
             return;
         }
 
-        computerContainer.addEventListener("click", handlePlayerAttack);
+        computerGameboardContainer.addEventListener("click", handlePlayerAttack);
     };
 
     initStartButton();

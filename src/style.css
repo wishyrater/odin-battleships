@@ -71,10 +71,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* || General styling */
-
 body {
     display: grid;
     justify-items: center;
+
+    font-family: 'Rajdhani', 'Arial Narrow', Arial, sans-serif;
+
+    background-color: var(--bg);
+    color: var(--text-primary);
 }
 
 main {
@@ -84,11 +88,29 @@ main {
     gap: 50px;
 }
 
+h1 {
+    font-size: 2.5rem;
+
+    margin-top: 20px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
 .board {
     display: grid;
     justify-items: center;
+    align-content: center;
 
     grid-template-columns: 1fr 1fr;
+
+    background-color: var(--surface);
+
+    height: 400px;
+    width: 800px;
+    margin-top: 40px;
 }
 
 .gameboard {
@@ -105,20 +127,49 @@ main {
     height: 24px;
     width: 24px;
     border: 1px solid black;
+
+    background-color: var(--cell);
 }
 
 .ship {
-    background-color: blue;
+    background-color: var(--ship);
 }
 
 .attacked {
-    background-color: black;
+    background-color: var(--miss);
 }
 
 .ship.attacked {
-    background-color: red;
+    background-color: var(--hit);
 }
 
 .newShipPreview {
-    background-color: aqua;
+    background-color: var(--preview);
+}
+
+.narrator-container {
+    display: grid;
+    justify-items: center;
+    align-items: start;
+
+    width: 400px;
+    height: 150px;
+    padding: 10px;
+}
+
+.start-button {
+    background-color: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 4px;
+    padding: 0.6rem 1.8rem;
+    font-family: "Rajdhani", sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.start-button:hover {
+    filter: brightness(1.1);
 }
