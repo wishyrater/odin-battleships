@@ -1,5 +1,5 @@
 import Player from "./Player.js";
-import { renderBoard, renderStartButton } from "./render.js";
+import { renderBoard, renderStartButton, updateNarratorText } from "./render.js";
 import Ship from "./Ship.js";
 
 // initial events on bootup
@@ -20,6 +20,7 @@ export const initEvents = () => {
     // render startbutton
     const narratorContainer = document.querySelector(".narrator-container");
     renderStartButton(narratorContainer);
+    updateNarratorText("Place your battleships!\nStart the game when you are ready");
 
     // set ship movement phase event listeners
     let selectedShip = null;
@@ -37,10 +38,10 @@ export const initEvents = () => {
         selectedShip = player.gameboard.getCell(x, y);
         if (selectedShip) verticalOrientation = selectedShip.isVertical;
 
-        // TODO: implement right click to change vertical orientation
+        updateNarratorText("Press the 'R'-key to rotate your ship");
         document.addEventListener("keydown", handleRotate);
         playerGameboardContainer.addEventListener("mouseover", handlePreviewHover);
-        document.addEventListener("mouseup", handlePlacementMouseUp)
+        document.addEventListener("mouseup", handlePlacementMouseUp);
     };
 
     const handleRotate = (e) => {
@@ -54,6 +55,7 @@ export const initEvents = () => {
 
     const handlePlacementMouseUp = (e) => {
         clearPreviewCells();
+        updateNarratorText("Place your battleships!\nStart the game when you are ready");
         document.removeEventListener("keydown", handleRotate);
         playerGameboardContainer.removeEventListener("mouseover", handlePreviewHover);
         document.removeEventListener("mouseup", handlePlacementMouseUp);
@@ -122,6 +124,7 @@ export const initEvents = () => {
 
     const initBattlePhase = () => {
         computerGameboardContainer.addEventListener("click", handlePlayerAttack);
+        updateNarratorText("Your turn\nClick the enemy board to attack!");
     };
 
     const handlePlayerAttack = (e) => {
@@ -135,6 +138,11 @@ export const initEvents = () => {
         if (computer.gameboard.attacks.some(([ax, ay]) => ax === x && ay === y)) return;
 
         computer.gameboard.receiveAttack(x, y);
+        if (computer.gameboard.getCell(x, y)) {
+            updateNarratorText("Hit!");
+        } else {
+            updateNarratorText("Miss");
+        }
         renderBoard(computer.gameboard, computerGameboardContainer);
 
         // check for win condition
@@ -143,12 +151,18 @@ export const initEvents = () => {
             location.reload();
             return;
         }
-
         computerGameboardContainer.removeEventListener("click", handlePlayerAttack);
-        handleComputerAttack();
+
+        setTimeout(() => {
+            updateNarratorText("Computer attacking...");
+            setTimeout(() => {
+                handleComputerAttack(); 
+            }, 1500);      
+        }, 1500);
     };
 
     const handleComputerAttack = () => {
+       
         let x = Math.floor(Math.random() * 10);
         let y = Math.floor(Math.random() * 10);
 
@@ -158,6 +172,11 @@ export const initEvents = () => {
         } while (player.gameboard.attacks.some(([ax, ay]) => ax === x && ay === y));
 
         player.gameboard.receiveAttack(x, y);
+        if (player.gameboard.getCell(x, y)) {
+            updateNarratorText(`We've been hit at [${x}, ${y}]!`);
+        } else {
+            updateNarratorText("Computer missed!");
+        }
         renderBoard(player.gameboard, playerGameboardContainer);
 
         if (player.gameboard.allSunk()) {
@@ -166,7 +185,10 @@ export const initEvents = () => {
             return;
         }
 
-        computerGameboardContainer.addEventListener("click", handlePlayerAttack);
+        setTimeout(() => {
+            computerGameboardContainer.addEventListener("click", handlePlayerAttack);
+            updateNarratorText("Your turn\nClick the enemy board to attack!");
+        }, 1500);
     };
 
     initStartButton();

@@ -131,7 +131,7 @@ h2 {
     background-color: var(--cell);
 }
 
-.ship {
+.player-gameboard-container .ship {
     background-color: var(--ship);
 }
 
@@ -152,9 +152,13 @@ h2 {
     justify-items: center;
     align-items: start;
 
-    width: 400px;
-    height: 150px;
+    width: 600px;
+    height: 200px;
     padding: 10px;
+    font-size: 2rem;
+    font-weight: 700;
+    white-space: pre-line;
+    text-align: center;
 }
 
 .start-button {

@@ -24,3 +24,12 @@ export const renderStartButton = (parentElement) => {
     button.classList.add("start-button");
     parentElement.appendChild(button);
 };
+
+const narratorTextContainer = document.querySelector(".narrator-text-container");
+
+export const updateNarratorText = (message) => {
+    if (!narratorTextContainer) {
+        return;
+    }
+    narratorTextContainer.textContent = message;
+};
